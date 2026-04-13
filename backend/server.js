@@ -32,6 +32,14 @@ app.use('/api/admin', require('./routes/admin'));
 app.use('/api/updates', require('./routes/updates'));
 app.use('/api/sac', require('./routes/sac'));
 
+app.get('/', (req, res) => {
+ res.send({
+  activeStatus : true,
+  error : false 
+ })
+});
+
+
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
