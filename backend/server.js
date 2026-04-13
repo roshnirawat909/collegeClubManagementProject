@@ -21,9 +21,15 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS ||
 
 const corsOptions = {
   origin: function(origin, callback) {
-    // Log for debugging (remove in prod)
+    // TEMP PERMISSIVE - Remove after fix confirmed
+    if (process.env.CORS_ALLOW_ALL === 'true') {
+      console.log('CORS: ALLOW_ALL enabled');
+      callback(null, true);
+      return;
+    }
+    // Log for debugging
     console.log('CORS origin check:', origin, 'Allowed:', allowedOrigins);
-    if (!origin || allowedOrigins.includes(origin) || process.env.CORS_ALLOW_ALL === 'true') {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       console.log(`CORS blocked: ${origin}`);
