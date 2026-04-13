@@ -21,9 +21,12 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS ||
 
 const corsOptions = {
   origin: function(origin, callback) {
+    // Log for debugging (remove in prod)
+    console.log('CORS origin check:', origin, 'Allowed:', allowedOrigins);
     if (!origin || allowedOrigins.includes(origin) || process.env.CORS_ALLOW_ALL === 'true') {
       callback(null, true);
     } else {
+      console.log(`CORS blocked: ${origin}`);
       callback(new Error(`CORS policy: origin ${origin} not allowed`));
     }
   },

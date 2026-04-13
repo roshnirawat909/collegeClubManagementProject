@@ -98,9 +98,18 @@ backend/
 **Backend (.env):**
 ```
 PORT=5000
-MONGODB_URI=your_mongodb_connection_string
+MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
+ALLOWED_ORIGINS=https://college-club-management-project-8vu.vercel.app,https://college-club-management-project-e2hba6sxt.vercel.app
+# CORS_ALLOW_ALL=true
 ```
+
+**Frontend (.env):**
+```
+VITE_API_BASE_URL=https://college-club-management-project-e2hba6sxt.vercel.app
+```
+
+> On Vercel, set `VITE_API_BASE_URL` in the frontend project environment variables instead of relying on `Frontend/.env`.
 
 ## 🤝 Contributing
 1. Fork the repo
