@@ -93,6 +93,7 @@ function RegisterForm({ onRegister, onSwitchToLogin }) {
                   id="name"
                   name="name"
                   type="text"
+                  autoComplete="name"
                   placeholder="Enter your name"
                   value={formData.name}
                   onChange={handleChange}
@@ -117,6 +118,7 @@ function RegisterForm({ onRegister, onSwitchToLogin }) {
                   id="email"
                   name="email"
                   type="email"
+                  autoComplete="email"
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
@@ -141,6 +143,7 @@ function RegisterForm({ onRegister, onSwitchToLogin }) {
                   id="password"
                   name="password"
                   type="password"
+                  autoComplete="new-password"
                   placeholder="Create a password"
                   value={formData.password}
                   onChange={handleChange}
@@ -165,6 +168,7 @@ function RegisterForm({ onRegister, onSwitchToLogin }) {
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
+                  autoComplete="new-password"
                   placeholder="Confirm your password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
