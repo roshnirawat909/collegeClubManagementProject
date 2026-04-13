@@ -14,7 +14,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = (process.env.ALLOWED_ORIGINS ||
-  'http://localhost:5173,http://localhost:5174,https://college-club-management-project-e2hba6sxt.vercel.app,https://college-club-management-project-8vu.vercel.app')
+  'http://localhost:5173,http://localhost:5174,https://college-club-management-project-e2hba6sxt.vercel.app,https://college-club-management-project-8vu.vercel.app,https://college-club-management-project-2gs.vercel.app')
   .split(',')
   .map(origin => origin.trim())
   .filter(Boolean);
@@ -28,10 +28,10 @@ const corsOptions = {
     }
   },
   credentials: true,
-  optionsSuccessStatus: 200
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
 };
 
-// Middleware
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 app.use(express.json());
@@ -62,9 +62,11 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 module.exports = app;
 
