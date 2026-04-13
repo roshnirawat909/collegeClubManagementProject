@@ -1,0 +1,15 @@
+{
+  "env": {
+    "node": true,
+    "es2021": true
+  },
+  "globals": {
+    "process": "readonly",
+    "module": "readonly",
+    "require": "readonly"
+  },
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "no-unused-vars": "warn"
+  }
+}
