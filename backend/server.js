@@ -21,20 +21,25 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS ||
 
 const corsOptions = {
   origin: function(origin, callback) {
-    // TEMP PERMISSIVE - Remove after fix confirmed
-    if (process.env.CORS_ALLOW_ALL === 'true') {
-      console.log('CORS: ALLOW_ALL enabled');
+    console.log('CORS request from:', origin);
+    
+    // BULLETPROOF: Always allow our frontend + localhost + Vercel preview
+    const safeOrigins = [
+      'https://college-club-management-project-2gs.vercel.app',
+      'https://college-club-management-project-e2hba6sxt.vercel.app', 
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'https://college-club-management-project-8vu.vercel.app'
+    ];
+    
+    if (!origin || safeOrigins.some(safe => origin.includes(safe)) || origin.includes('vercel.app') || origin.includes('college-club-management-project')) {
+      console.log('✅ CORS allowed:', origin);
       callback(null, true);
       return;
     }
-    // Log for debugging
-    console.log('CORS origin check:', origin, 'Allowed:', allowedOrigins);
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log(`CORS blocked: ${origin}`);
-      callback(new Error(`CORS policy: origin ${origin} not allowed`));
-    }
+    
+    console.log('❌ CORS blocked:', origin);
+    callback(new Error(`CORS policy violation: ${origin}`));
   },
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
