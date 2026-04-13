@@ -13,25 +13,27 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'https://college-club-management-project-e2hba6sxt.vercel.app',
-  'https://college-club-management-project-8vu.vercel.app'
-];
+const allowedOrigins = (process.env.ALLOWED_ORIGINS ||
+  'http://localhost:5173,http://localhost:5174,https://college-club-management-project-e2hba6sxt.vercel.app,https://college-club-management-project-8vu.vercel.app')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
 
-// Middleware
-app.use(cors({
+const corsOptions = {
   origin: function(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || process.env.CORS_ALLOW_ALL === 'true') {
       callback(null, true);
     } else {
-      callback(new Error('CORS policy: origin not allowed'));
+      callback(new Error(`CORS policy: origin ${origin} not allowed`));
     }
   },
-  credentials: true
-}));
-app.options('*', cors({ origin: allowedOrigins, credentials: true }));
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+// Middleware
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json());
 
 // Routes
